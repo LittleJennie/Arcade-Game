@@ -49,6 +49,20 @@ class Player {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   };
+  handleInput(keyPressed) {
+    if (keyPressed === 'left' && this.x >= 80) {
+      this.x -= 100;
+    }
+    if (keyPressed === 'right' && this.x <= 395) {
+      this.x += 100;
+    }
+    if (keyPressed === 'up') {
+      this.y -= 80;
+    }
+    if (keyPressed === 'down' && this.y <= 350) {
+      this.y += 80;
+    }// a handleInput() method.
+  };
 };
 
 // Now instantiate your objects.
