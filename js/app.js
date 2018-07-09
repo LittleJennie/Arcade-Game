@@ -1,6 +1,6 @@
 // Enemies our player must avoid
 class Enemies {
-  constructor() {
+  constructor(y, x) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -9,6 +9,7 @@ class Enemies {
     this.sprite = 'images/enemy-bug.png';
     this.x = x
     this.y = y;
+    this.v = Math.floor(Math.random() * 130) + 80;
   };
   // Update the enemy's position, required method for game
   // Parameter: dt, a time delta between ticks
@@ -16,6 +17,7 @@ class Enemies {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x += dt*this.v;
   };
 
   // Draw the enemy on the screen, required method for game
@@ -47,7 +49,17 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+let player = new Player();
 
+let enemy1 = new Enemies(60, -20);
+let enemy2 = new Enemies(145, -20);
+let enemy3 = new Enemies(225, -50);
+let enemy4 = new Enemies(60, -300);
+let enemy5 = new Enemies(145, -500);
+let enemy6 = new Enemies(225, -400);
+
+let allEnemies = [];
+allEnemies.push(enemy1, enemy2, enemy3, enemy4, enemy5, enemy6);
 
 
 // This listens for key presses and sends the keys to your
