@@ -18,7 +18,7 @@ class Enemies {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.x >= 505) {
-      this.x = Math.floor(Math.random() * (-50 + 250)) - 250;
+      this.x = Math.floor(Math.random() * (-80 + 250)) - 250;
       this.x += dt*this.v;
     } else {
       this.x += dt*this.v;
