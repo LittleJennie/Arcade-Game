@@ -27,7 +27,9 @@ class Enemies {
       setTimeout(() => {
         player.x = 200;
         player.y = 300;
-      }, 200);
+      }, 50);
+      gameState.point -= 1;
+      document.querySelector('.score').innerText = `${gameState.point} points`;
     };
   };
 
@@ -69,6 +71,8 @@ class Player {
         this.y -= 80;
         setTimeout(() => {
           this.y = 300;
+          gameState.point += 5;
+          document.querySelector('.score').innerText = `${gameState.point} points`;
         }, 500);
       }
     }
@@ -106,3 +110,25 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+class GameState {
+  constructor() {
+    this.seconds = 0;
+    this.minutes = 0;
+    this.point = 0;
+    this.life = 0;
+  }
+  setTimer() {
+    return setInterval(() => {
+      if (this.seconds >= 60) {
+        this.minutes ++;
+        this.seconds = 0;
+      }
+      this.seconds ++;
+      document.querySelector('.timer').innerText = `${this.minutes} m ${this.seconds} s`;
+    }, 1000);
+  }
+}
+
+let gameState = new GameState();
+gameState.setTimer();
