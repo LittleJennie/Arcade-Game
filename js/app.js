@@ -7,6 +7,8 @@ class Enemies {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = x
+    this.y = y;
   };
   // Update the enemy's position, required method for game
   // Parameter: dt, a time delta between ticks
@@ -29,6 +31,8 @@ class Enemies {
 class Player {
   constructor() {
     this.sprite = 'images/char-boy.png';
+    this.x = 200;
+    this.y = 300;
   };
   update(dt) {
     // You should multiply any movement by the dt parameter
