@@ -23,6 +23,12 @@ class Enemies {
     } else {
       this.x += dt*this.v;
     }
+    if (player.x <= this.x + 80 && player.x >= this.x -50 && player.y <= this.y + 10 && player.y >= this.y - 10) {
+      setTimeout(() => {
+        player.x = 200;
+        player.y = 300;
+      }, 200);
+    };
   };
 
   // Draw the enemy on the screen, required method for game
