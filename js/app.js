@@ -57,7 +57,14 @@ class Player {
       this.x += 100;
     }
     if (keyPressed === 'up') {
-      this.y -= 80;
+      if (this.y - 80 >= 30) {
+        this.y -= 80;
+      } else {
+        this.y -= 80;
+        setTimeout(() => {
+          this.y = 300;
+        }, 500);
+      }
     }
     if (keyPressed === 'down' && this.y <= 350) {
       this.y += 80;
