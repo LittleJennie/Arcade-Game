@@ -4,25 +4,51 @@ class GameState {
     this.minutes = 0;
     this.point = 0;
     this.life = 3;
+    this.die = 0;
+    this.win = 0;
     this.dieModal = document.querySelector('.die-modal');
     this.modalOverlay = document.querySelector('.modal-overlay');
     this.scoreStatus = document.querySelector('.score-status');
+    this.scoreResult = document.querySelector('.score-result');
+    this.endLifeModal = document.querySelector('.end-life-modal');
     this.restart = document.querySelector('#restart-button');
+    this.reTry = document.querySelector('#try-again-button');
   };
   openDieModal() {
     this.dieModal.style.display = 'block';
     this.modalOverlay.style.display = 'block';
     this.scoreStatus.innerText =
     `Oh Man! You are almost there!
-    You have ${this.life} remaining.
+    You have ${this.life} lifes remaining.
     Your current score is: ${this.point} points.`;
-    this.modalOverlay.addEventListener('click', this.closeModal);
-    this.restart.addEventListener('click', this.closeModal);
+    this.modalOverlay.addEventListener('click', this.closeDieModal);
+    this.restart.addEventListener('click', this.closeDieModal);
   };
-  closeModal() {
-    console.log ('close')
+  openEndLifeModal() {
+    this.endLifeModal.style.display = 'block';
+    this.modalOverlay.style.display = 'block';
+    this.scoreResult.innerText =
+    `Oh Man! You run out of lives.
+    Your current score is: ${this.point} points.`;
+    this.modalOverlay.addEventListener('click', this.closeEndLifeModal);
+    this.reTry.addEventListener('click', this.closeEndLifeModal);
+  };
+  closeDieModal() {
     document.querySelector('.die-modal').style.display = 'none';
     document.querySelector('.modal-overlay').style.display = 'none';
+  }
+  closeEndLifeModal() {
+    document.querySelector('.end-life-modal').style.display = 'none';
+    document.querySelector('.modal-overlay').style.display = 'none';
+    this.die = 0;
+    this.win = 0;
+    this.seconds = 0;
+    this.minutes = 0;
+    this.point = 0;
+    this.life = 3;
+    document.querySelector('.timer').innerText = `${this.minutes} m ${this.seconds} s`;
+    document.querySelector('.life').innerText = `${this.life} lifes`;
+    document.querySelector('.score').innerText = `${this.point} point`;
   }
   setTimer() {
     return setInterval(() => {
@@ -111,6 +137,7 @@ class Player {
         document.querySelector('.score').innerText = `${gameState.point} Points`;
         gameState.life += 1;
         document.querySelector('.life').innerText = `${gameState.life} Lifes`;
+        this.win += 1;
       }, 800);
     }
     if (keyPressed === 'down' && this.y <= 350) {
