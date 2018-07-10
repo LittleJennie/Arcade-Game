@@ -6,6 +6,23 @@ class GameState {
     this.life = 3;
     this.dieModal = document.querySelector('.die-modal');
     this.modalOverlay = document.querySelector('.modal-overlay');
+    this.scoreStatus = document.querySelector('.score-status');
+    this.restart = document.querySelector('#restart-button');
+  };
+  openDieModal() {
+    this.dieModal.style.display = 'block';
+    this.modalOverlay.style.display = 'block';
+    this.scoreStatus.innerText =
+    `Oh Man! You are almost there!
+    You have ${this.life} remaining.
+    Your current score is: ${this.point} points.`;
+    this.modalOverlay.addEventListener('click', this.closeModal);
+    this.restart.addEventListener('click', this.closeModal);
+  };
+  closeModal() {
+    console.log ('close')
+    document.querySelector('.die-modal').style.display = 'none';
+    document.querySelector('.modal-overlay').style.display = 'none';
   }
   setTimer() {
     return setInterval(() => {
@@ -16,15 +33,8 @@ class GameState {
       this.seconds ++;
       document.querySelector('.timer').innerText = `${this.minutes} m ${this.seconds} s`;
     }, 1000);
-  }
-  dieModal() {
-    this.dieModal.style.display = 'block';
-    this.modalOverlay.style.display = 'block';
-    document.querySelector('.die-modal').innerText =
-      `You have ${this.life} remaining.
-       Your current score is: ${this.point} points.`;
-  }
-}
+  };
+};
 
 // Enemies our player must avoid
 class Enemies {
@@ -51,17 +61,6 @@ class Enemies {
     } else {
       this.x += dt*this.v;
     }
-    if (player.x <= this.x + 80 && player.x >= this.x -50 && player.y <= this.y + 10 && player.y >= this.y - 10) {
-      setTimeout(() => {
-        player.x = 200;
-        player.y = 300;
-        gameState.dieModal();
-      }, 50);
-      gameState.point -= 1;
-      document.querySelector('.score').innerText = `${gameState.point} points`;
-      gameState.life -= 1;
-      document.querySelector('.life').innerText = `${gameState.life} Lifes`;
-    };
   };
 
   // Draw the enemy on the screen, required method for game
@@ -79,36 +78,43 @@ class Player {
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 300;
+    this.vx = 0;
+    this.vy = 0;
   };
   update(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    this.vx = 0;
+    this.vy = 0;
   };
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   };
   handleInput(keyPressed) {
-    if (keyPressed === 'left' && this.x >= 80) {
-      this.x -= 100;
+    if (keyPressed === 'left' && this.x >= 50) {
+      this.vx = -6000;
     }
-    if (keyPressed === 'right' && this.x <= 395) {
-      this.x += 100;
+    if (keyPressed === 'right' && this.x <= 350) {
+      this.vx = 6000;
     }
-    if (keyPressed === 'up' && this.y >= 30) {
-      this.y -= 80;
+    if (keyPressed === 'up' && this.y >= 50) {
+      this.vy = -4800;
     }
-    if (this.y <= 60) {
+    if (this.y <= 50){
       setTimeout(() => {
+        this.x = 200;
         this.y = 300;
         gameState.point += 5;
         document.querySelector('.score').innerText = `${gameState.point} Points`;
         gameState.life += 1;
         document.querySelector('.life').innerText = `${gameState.life} Lifes`;
-      }, 1500);
+      }, 800);
     }
     if (keyPressed === 'down' && this.y <= 350) {
-      this.y += 80;
+      this.vy = 4800;
     }// a handleInput() method.
   };
 };
