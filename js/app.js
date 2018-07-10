@@ -1,3 +1,31 @@
+class GameState {
+  constructor() {
+    this.seconds = 0;
+    this.minutes = 0;
+    this.point = 0;
+    this.life = 3;
+    this.dieModal = document.querySelector('.die-modal');
+    this.modalOverlay = document.querySelector('.modal-overlay');
+  }
+  setTimer() {
+    return setInterval(() => {
+      if (this.seconds >= 60) {
+        this.minutes ++;
+        this.seconds = 0;
+      }
+      this.seconds ++;
+      document.querySelector('.timer').innerText = `${this.minutes} m ${this.seconds} s`;
+    }, 1000);
+  }
+  dieModal() {
+    this.dieModal.style.display = 'block';
+    this.modalOverlay.style.display = 'block';
+    document.querySelector('.die-modal').innerText =
+      `You have ${this.life} remaining.
+       Your current score is: ${this.point} points.`;
+  }
+}
+
 // Enemies our player must avoid
 class Enemies {
   constructor(y, x) {
@@ -27,9 +55,12 @@ class Enemies {
       setTimeout(() => {
         player.x = 200;
         player.y = 300;
+        gameState.dieModal();
       }, 50);
       gameState.point -= 1;
       document.querySelector('.score').innerText = `${gameState.point} points`;
+      gameState.life -= 1;
+      document.querySelector('.life').innerText = `${gameState.life} Lifes`;
     };
   };
 
@@ -64,17 +95,17 @@ class Player {
     if (keyPressed === 'right' && this.x <= 395) {
       this.x += 100;
     }
-    if (keyPressed === 'up') {
-      if (this.y - 80 >= 30) {
-        this.y -= 80;
-      } else {
-        this.y -= 80;
-        setTimeout(() => {
-          this.y = 300;
-          gameState.point += 5;
-          document.querySelector('.score').innerText = `${gameState.point} points`;
-        }, 500);
-      }
+    if (keyPressed === 'up' && this.y >= 30) {
+      this.y -= 80;
+    }
+    if (this.y <= 60) {
+      setTimeout(() => {
+        this.y = 300;
+        gameState.point += 5;
+        document.querySelector('.score').innerText = `${gameState.point} Points`;
+        gameState.life += 1;
+        document.querySelector('.life').innerText = `${gameState.life} Lifes`;
+      }, 1500);
     }
     if (keyPressed === 'down' && this.y <= 350) {
       this.y += 80;
@@ -85,6 +116,8 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+let gameState = new GameState();
+gameState.setTimer();
 let player = new Player();
 
 let enemy1 = new Enemies(60, -20);
@@ -110,25 +143,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
-class GameState {
-  constructor() {
-    this.seconds = 0;
-    this.minutes = 0;
-    this.point = 0;
-    this.life = 0;
-  }
-  setTimer() {
-    return setInterval(() => {
-      if (this.seconds >= 60) {
-        this.minutes ++;
-        this.seconds = 0;
-      }
-      this.seconds ++;
-      document.querySelector('.timer').innerText = `${this.minutes} m ${this.seconds} s`;
-    }, 1000);
-  }
-}
-
-let gameState = new GameState();
-gameState.setTimer();
