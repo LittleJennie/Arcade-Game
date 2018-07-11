@@ -29,7 +29,8 @@ class GameState {
     this.modalOverlay.style.display = 'block';
     this.scoreResult.innerText =
     `Oh Man! You run out of lives.
-    Your current score is: ${this.point} points.`;
+    Your current score is: ${this.point} points.
+    You have cross to the water ${this.win} times and ${this.die} times.`;
     this.modalOverlay.addEventListener('click', this.closeEndLifeModal);
     this.reTry.addEventListener('click', this.closeEndLifeModal);
   };
@@ -137,7 +138,7 @@ class Player {
         document.querySelector('.score').innerText = `${gameState.point} Points`;
         gameState.life += 1;
         document.querySelector('.life').innerText = `${gameState.life} Lifes`;
-        this.win += 1;
+        gameState.win += 1;
       }, 800);
     }
     if (keyPressed === 'down' && this.y <= 350) {

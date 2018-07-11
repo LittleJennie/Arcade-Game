@@ -89,7 +89,7 @@ var Engine = (function(global) {
         if (player.x <= enemy.x + 80 && player.x >= enemy.x -50 && player.y <= enemy.y + 50 && player.y >= enemy.y - 50) {
           player.x = 200;
           player.y = 300;
-          gameState.die -= 1;
+          gameState.die += 1;
           gameState.point -= 1;
           document.querySelector('.score').innerText = `${gameState.point} points`;
           gameState.life -= 1;
