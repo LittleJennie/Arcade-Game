@@ -84,8 +84,6 @@ var Engine = (function(global) {
 
     function checkCollisions() {
       for (enemy of allEnemies) {
-        console.log('player position', player.x, player.y)
-
         if (player.x <= enemy.x + 80 && player.x >= enemy.x -50 && player.y <= enemy.y + 50 && player.y >= enemy.y - 50) {
           player.x = 200;
           player.y = 300;
